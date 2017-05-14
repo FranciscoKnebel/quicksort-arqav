@@ -1,10 +1,9 @@
+/*
+  Quicksort parallel
+*/
+
 #include <omp.h>
-
-
-void quickSort_parallel(int* array, int lenArray, int numThreads);
-void quickSort_parallel_internal(int* array, int left, int right, int cutoff);
-
-
+#include "../include/parallel.h"
 
 void quickSort_parallel(int* array, int lenArray, int numThreads){
 
@@ -17,10 +16,7 @@ void quickSort_parallel(int* array, int lenArray, int numThreads){
 			quickSort_parallel_internal(array, 0, lenArray-1, cutoff);
 		}
 	}
-
 }
-
-
 
 void quickSort_parallel_internal(int* array, int left, int right, int cutoff)
 {

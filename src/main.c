@@ -4,53 +4,18 @@
 #include <time.h>
 #include <omp.h>
 
-#include "quicksort-omp.h"
-
+#include "../include/quicksort_arqav.h"
 
 int lenArr;// = 32768000;//262144000; // 262144000 = 1000 MBytes = 1 GByte
 int numthreads;// = 4;
-
-void quickSort(int* arr, int left, int right)
-{
-	int i = left, j = right;
-	int tmp;
-	int pivot = arr[(left + right) / 2];
-
-  	/* PARTITION PART */
-	while (i <= j) {
-		while (arr[i] < pivot)
-			i++;
-		while (arr[j] > pivot)
-			j--;
-		if (i <= j) {
-			tmp = arr[i];
-			arr[i] = arr[j];
-			arr[j] = tmp;
-			i++;
-			j--;
-		}
-	}
-
-	/* RECURSION PART */
-	if (left < j){ quickSort(arr, left, j);  }
-	if (i< right){ quickSort(arr, i, right); }
-}
-
-
-
-
-
-// Comparator used in qsort()
-int cmpfunc (const void * a, const void * b)
-{
-	return ( *(int*)a - *(int*)b );
-}
 
 int main(int argc, char const *argv[]){
   // argv[1] = size in bytes of array
   // argv[2] = number of threads
   lenArr = strtol(argv[1], NULL, 10);
   numthreads = strtol(argv[2], NULL, 10);
+
+	printf("%d, %d\n", lenArr, numthreads);
 
 	int minMum = 1;
 	int maxNum = lenArr;
