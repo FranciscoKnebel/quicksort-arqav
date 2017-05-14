@@ -1,14 +1,20 @@
 CC=gcc
-CFLAGS=-Wall -g
-MAINFLAGS=-O3 -fopenmp -Wall
+CFLAGS=-Wall -g -Wextra
+MAINFLAGS=-O3 -fopenmp -Wall -Wextra
 LIB_DIR=./lib
 INC_DIR=./include
 BIN_DIR=./bin
 SRC_DIR=./src
 DST_DIR=./dist
 
+## Style ##
+BOLD=\033[1m
+RED=\033[1;31m
+END=\033[0m
+
 all: $(LIB_DIR)/libquicksort.a
 	$(CC) $(MAINFLAGS) -o $(DST_DIR)/main $(SRC_DIR)/main.c -L$(LIB_DIR) -lquicksort
+	@echo "\nExecute '$(BOLD)./dist/main $(RED)<NumberOfElements> <NumberOfThreads>$(END)' to run the simulation."
 
 ## Library generation ##
 $(LIB_DIR)/libquicksort.a: buildall
