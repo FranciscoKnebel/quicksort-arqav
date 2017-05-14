@@ -1,11 +1,14 @@
 CC=gcc
+ICC=icc
 CFLAGS=-Wall -g -Wextra
-MAINFLAGS=-O3 -fopenmp -Wall -Wextra
 LIB_DIR=./lib
 INC_DIR=./include
 BIN_DIR=./bin
 SRC_DIR=./src
 DST_DIR=./dist
+
+FLAGS_MAIN=$(CFLAGS) -O3 -fopenmp
+FLAGS_AVX2=-no-vec -unroll0 -qopt-report2 -qopenmp -xAVX
 
 ## Style ##
 BOLD=\033[1m
@@ -13,15 +16,18 @@ RED=\033[1;31m
 END=\033[0m
 
 all: $(LIB_DIR)/libquicksort.a
-	$(CC) $(MAINFLAGS) -o $(DST_DIR)/main $(SRC_DIR)/main.c -L$(LIB_DIR) -lquicksort
-	@echo "\nExecute '$(BOLD)./dist/main $(RED)<NumberOfElements> <NumberOfThreads>$(END)' to run the simulation."
+	$(CC) $(FLAGS_MAIN) -o $(DST_DIR)/main $(SRC_DIR)/main.c -L$(LIB_DIR) -lquicksort
+	@echo "\nExecute '$(BOLD)./dist/main $(RED)<NumberOfElements> <NumberOfThreads>$(END)' to run."
 
 ## Library generation ##
 $(LIB_DIR)/libquicksort.a: buildall
-	ar rcs $(LIB_DIR)/libquicksort.a $(BIN_DIR)/parallel.o $(BIN_DIR)/sequential.o $(BIN_DIR)/sequential_std.o
+	ar rcs $(LIB_DIR)/libquicksort.a $(BIN_DIR)/parallel.o $(BIN_DIR)/sequential.o $(BIN_DIR)/sequential_std.o # $(BIN_DIR)/avx2.o
 
 ## Quicksort implementations ##
-buildall: $(BIN_DIR)/parallel.o $(BIN_DIR)/sequential.o $(BIN_DIR)/sequential_std.o
+buildall: $(BIN_DIR)/parallel.o $(BIN_DIR)/sequential.o $(BIN_DIR)/sequential_std.o # $(BIN_DIR)/avx2.o
+
+$(BIN_DIR)/avx2.o: $(SRC_DIR)/avx2.c
+#	$(ICC) -o $(BIN_DIR)/avx2.o $(SRC_DIR)/avx2.c $(FLAGS_AVX2)
 
 $(BIN_DIR)/parallel.o: $(SRC_DIR)/parallel.c
 	$(CC) $(CFLAGS) -O3 -fopenmp -c -o $(BIN_DIR)/parallel.o -I$(INC_DIR) $(SRC_DIR)/parallel.c
