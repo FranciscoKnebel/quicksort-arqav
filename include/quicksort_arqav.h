@@ -5,6 +5,6 @@
   #include "sequential.h"
   #include "sequential_std.h"
 
-  typedef enum { false, true } bool;
-  
+  #include "support.h"
+
 #endif
