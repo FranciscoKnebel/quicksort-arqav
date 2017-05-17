@@ -77,6 +77,20 @@ void printSummary(int argc, double time_arr1, double time_arr2, double time_arr3
   printf("#########################################################\n");
 }
 
+void printSmallSummary(int argc, double time_arr1, double time_arr2, double time_arr3, double* time_threads) {
+  printf("\nSmall Summary\n");
+  printf("%f\n", time_arr1);
+  printf("%f\n", time_arr2);
+  if(argc == 2) {
+    int i;
+    for (i = 0; i < threadsIteratorMAX; i++) {
+      printf("%f\n", time_threads[i]);
+    }
+  } else {
+    printf("%f\n", time_arr3);
+  }
+}
+
 void sort_stdlib(int* arr, double* time_arr) {
   double startTime, stopTime;
 
@@ -164,7 +178,8 @@ int main(int argc, char const *argv[]) {
 	free(unsolvedArr);
 	free(workingArr);
 
-  printSummary(argc, time_arr1, time_arr2, time_arr3, time_threads);
+  /* printSummary(argc, time_arr1, time_arr2, time_arr3, time_threads); */
+  printSmallSummary(argc, time_arr1, time_arr2, time_arr3, time_threads);
 
 	return 0;
 }
