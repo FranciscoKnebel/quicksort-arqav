@@ -1,6 +1,6 @@
 CC=gcc
 ICC=icc
-CFLAGS=-Wall -g -Wextra
+CFLAGS=-Wall -g -Wextra -I $(INC_DIR)
 LIB_DIR=./lib
 INC_DIR=./include
 BIN_DIR=./bin
@@ -8,7 +8,6 @@ SRC_DIR=./src
 DST_DIR=./dist
 
 FLAGS_OMP=$(CFLAGS) -O3 -fopenmp
-FLAGS_AVX2=-no-vec -unroll0 -qopt-report2 -qopenmp -xAVX
 
 ## Style ##
 BOLD=\033[1m
@@ -21,13 +20,10 @@ all: $(LIB_DIR)/libquicksort.a
 
 ## Library generation ##
 $(LIB_DIR)/libquicksort.a: buildall
-	ar rcs $(LIB_DIR)/libquicksort.a $(BIN_DIR)/parallel.o $(BIN_DIR)/sequential.o $(BIN_DIR)/sequential_std.o $(BIN_DIR)/support.o # $(BIN_DIR)/avx2.o
+	ar rcs $(LIB_DIR)/libquicksort.a $(BIN_DIR)/parallel.o $(BIN_DIR)/sequential.o $(BIN_DIR)/sequential_std.o $(BIN_DIR)/support.o
 
 ## Quicksort implementations ##
-buildall: $(BIN_DIR)/parallel.o $(BIN_DIR)/sequential.o $(BIN_DIR)/sequential_std.o $(BIN_DIR)/support.o # $(BIN_DIR)/avx2.o
-
-$(BIN_DIR)/avx2.o: $(SRC_DIR)/avx2.c
-#	$(ICC) -o $(BIN_DIR)/avx2.o $(SRC_DIR)/avx2.c $(FLAGS_AVX2)
+buildall: $(BIN_DIR)/parallel.o $(BIN_DIR)/sequential.o $(BIN_DIR)/sequential_std.o $(BIN_DIR)/support.o
 
 $(BIN_DIR)/parallel.o: $(SRC_DIR)/parallel.c
 	$(CC) $(CFLAGS) -O3 -fopenmp -c -o $(BIN_DIR)/parallel.o -I$(INC_DIR) $(SRC_DIR)/parallel.c

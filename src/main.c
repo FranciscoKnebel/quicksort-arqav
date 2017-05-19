@@ -4,7 +4,7 @@
 #include <time.h>
 #include <omp.h>
 
-#include "../include/quicksort_arqav.h"
+#include "quicksort_arqav.h"
 
 #define threadsIteratorMAX 3
 
@@ -178,8 +178,8 @@ int main(int argc, char const *argv[]) {
 	free(unsolvedArr);
 	free(workingArr);
 
-  /* printSummary(argc, time_arr1, time_arr2, time_arr3, time_threads); */
-  printSmallSummary(argc, time_arr1, time_arr2, time_arr3, time_threads);
+  printSummary(argc, time_arr1, time_arr2, time_arr3, time_threads);
+  // printSmallSummary(argc, time_arr1, time_arr2, time_arr3, time_threads);
 
 	return 0;
 }

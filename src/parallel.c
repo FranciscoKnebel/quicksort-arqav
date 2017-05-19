@@ -3,7 +3,7 @@
 */
 
 #include <omp.h>
-#include "../include/parallel.h"
+#include "parallel.h"
 
 void quickSort_parallel(int* array, int lenArray, int numThreads){
 	int cutoff = 1000;
