@@ -1,4 +1,4 @@
-# quicksort-arqavançada
+# quicksort-omp
 
 ## Execução
 
